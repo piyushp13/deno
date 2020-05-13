@@ -254,8 +254,8 @@ export type HTTPOptions = Omit<Deno.ListenOptions, "transport">;
  */
 export function serve(addr: string | HTTPOptions): Server {
   if (typeof addr === "string") {
-    const [hostname, port] = addr.split(":");
-    addr = { hostname, port: Number(port) };
+    const [port, ...hostname] = addr.split(":").reverse();
+    addr = { hostname: hostname.reverse().join(":"), port: Number(port) };
   }
 
   const listener = listen(addr);
